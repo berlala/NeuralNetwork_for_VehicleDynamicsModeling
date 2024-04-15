@@ -170,15 +170,12 @@ def create_dataset_separation_run(data_test: np.array,
         initials = np.reshape(initials, (1, input_timesteps, input_shape))
 
     # get vehicle input data of test data file
-    steeringangle_rad = data_test[start + input_timesteps:start + duration, output_shape]
 
-    torqueRL_Nm = data_test[start + input_timesteps:start + duration, output_shape + 1]
-    torqueRR_Nm = data_test[start + input_timesteps:start + duration, output_shape + 2]
+    acc               = data_test[start + input_timesteps:start + duration, output_shape]
+    steeringangle_rad = data_test[start + input_timesteps:start + duration, output_shape + 1]
 
-    brakepresF_bar = data_test[start + input_timesteps:start + duration, output_shape + 3]
-    brakepresR_bar = data_test[start + input_timesteps:start + duration, output_shape + 4]
 
-    return initials, steeringangle_rad, torqueRL_Nm, torqueRR_Nm, brakepresF_bar, brakepresR_bar
+    return initials, acc ,steeringangle_rad
 
 
 # ----------------------------------------------------------------------------------------------------------------------

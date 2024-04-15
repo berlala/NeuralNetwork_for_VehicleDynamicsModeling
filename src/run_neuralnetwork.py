@@ -68,14 +68,14 @@ def run_nn(path_dict: dict,
                                        params_dict=params_dict,
                                        dataset=data)
 
-    initial, steeringangle_rad, torqueRL_Nm, torqueRR_Nm, brakepresF_bar, brakepresR_bar = \
+    initial, acc, steeringangle_rad = \
         src.prepare_data.create_dataset_separation_run(data, params_dict, startpoint,
                                                        params_dict['Test']['run_timespan'], nn_mode)
 
     # load neural network model
     model = keras.models.load_model(path2model)
 
-    results = np.zeros((len(torqueRR_Nm) + input_timesteps, input_shape))
+    results = np.zeros((len(acc) + input_timesteps, input_shape))
 
     if nn_mode == "feedforward":
         new_input = np.zeros((1, input_shape * input_timesteps))
@@ -88,7 +88,7 @@ def run_nn(path_dict: dict,
 
         results[0:input_timesteps, :] = initial[0, :, :]
 
-    for i_count in tqdm(range(0, len(torqueRR_Nm))):
+    for i_count in tqdm(range(0, len(acc))):
 
         if i_count == 0:
             data_convert = initial
@@ -107,22 +107,16 @@ def run_nn(path_dict: dict,
             temp[:, input_shape * (input_timesteps - 1):input_shape * (input_timesteps - 1) + output_shape] \
                 = result_process
 
-            temp[:, input_shape * (input_timesteps - 1) + output_shape] = steeringangle_rad[i_count]
-            temp[:, input_shape * (input_timesteps - 1) + output_shape + 1] = torqueRL_Nm[i_count]
-            temp[:, input_shape * (input_timesteps - 1) + output_shape + 2] = torqueRR_Nm[i_count]
-            temp[:, input_shape * (input_timesteps - 1) + output_shape + 3] = brakepresF_bar[i_count]
-            temp[:, input_shape * (input_timesteps - 1) + output_shape + 4] = brakepresR_bar[i_count]
+            temp[:, input_shape * (input_timesteps - 1) + output_shape] = acc[i_count]
+            temp[:, input_shape * (input_timesteps - 1) + output_shape + 1] = steeringangle_rad[i_count]
 
         elif nn_mode == "recurrent":
             temp = np.zeros((1, input_timesteps, input_shape))
             temp[0, 0:input_timesteps - 1, :] = data_convert[0, 1:input_timesteps, :]
 
             temp[0, input_timesteps - 1, 0:output_shape] = result_process
-            temp[0, input_timesteps - 1, output_shape] = steeringangle_rad[i_count]
-            temp[0, input_timesteps - 1, output_shape + 1] = torqueRL_Nm[i_count]
-            temp[0, input_timesteps - 1, output_shape + 2] = torqueRR_Nm[i_count]
-            temp[0, input_timesteps - 1, output_shape + 3] = brakepresF_bar[i_count]
-            temp[0, input_timesteps - 1, output_shape + 4] = brakepresR_bar[i_count]
+            temp[0, input_timesteps - 1, output_shape] = acc[i_count]
+            temp[0, input_timesteps - 1, output_shape + 1] = steeringangle_rad[i_count]
 
         new_input = temp
 

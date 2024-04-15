@@ -15,7 +15,7 @@ bool_load_existingmodel = false
 scaler_mode = 0     # Standard_dev leads to better results, but slower learning
 shuffle_mode = 1    # 0 --> always different shuffeling; 1 --> fixed shuffle number
 shuffle_number = 5
-datasetcount = 14   # how many dataset should be used for training (located in the folder inputs/trainingdata)
+datasetcount = 1   # how many dataset should be used for training (located in the folder inputs/trainingdata)
 
 # IF true, AN OLD TRANSFORMATION SCALE FROM PREVIOUS DATASETS IS USED
 use_old_transformation = false
@@ -37,9 +37,9 @@ test_split = 0.1
 epochs = 800
 
 # THESE ARE THE DESIGN PARAMETERS OF THE NEURAL NETWORK
-input_shape = 10        # number of independent input parameters
+input_shape = 4        # number of independent input parameters
 input_timesteps = 5     # number of previous vehicle states to inlcude into neural network input
-output_shape = 5        # number of vehicle states (output of NN); DO NOT CHANGE
+output_shape = 2        # number of vehicle states (output of NN); DO NOT CHANGE
 learning_rate = 0.0004  # should not exceed 0.0005
 
 # WEIGHT REGULARIZATION
