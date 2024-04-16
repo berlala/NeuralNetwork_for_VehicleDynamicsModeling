@@ -77,10 +77,10 @@ activation_2 = 'None'
 [NeuralNetwork_Settings.Recurrent]
 
 # from tensorflow.keras.layers [LSTM, GRU, SimpleRNN, ConvLSTM2D, RNN]
-recurrent_mode = 'GRU'
+recurrent_mode = 'SimpleRNN'
 
 # NUMBER OF NEURONS OF FIRST AND SECOND LAYER
-neurons_first_layer_recurrent = 150
+neurons_first_layer_recurrent  = 150
 neurons_second_layer_recurrent = 150
 
 # ACTIVATION FUNCTIONS OF THE RECURRENT LAYERS
@@ -107,5 +107,5 @@ activation_end = 'linear'
 run_timespan = 1500     # number of timesteps covered. timespan = number of timesteps * timestep_length
 run_timestart = 0       # start timestep
 
-n_test = 37
+n_test = 14
 iteration_step = 1250   # run a test every iteration_step index (row index of test data file) 
